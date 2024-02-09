@@ -1,0 +1,39 @@
+# Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Assuming you have a dataset with relevant features (e.g., land size, location coordinates, etc.)
+# and labels indicating whether the land is suitable for development (1) or not (0).
+# Make sure your dataset includes information about gas stations, electricity, and water supplies.
+
+# Load your dataset (replace 'your_dataset.csv' with the actual file path)
+df = pd.read_csv('your_dataset.csv')
+
+# Assume 'latitude', 'longitude', 'gas_stations', 'electricity', 'water_supply' are relevant features
+features = df[['latitude', 'longitude', 'gas_stations', 'electricity', 'water_supply']]
+labels = df['development_opportunity']
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
+
+# Create a RandomForestClassifier (you can choose other models based on your needs)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Model Accuracy: {accuracy}')
+
+# Now, you can use the trained model to predict new land development opportunities
+# by providing the relevant features for the new land.
+# For example:
+new_land_features = [[new_land_latitude, new_land_longitude, gas_stations_nearby, electricity_available, water_supply_available]]
+prediction = model.predict(new_land_features)
+print(f'Predicted Development Opportunity: {prediction}')
